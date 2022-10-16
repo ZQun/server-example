@@ -2,9 +2,16 @@ import { Configuration, App } from '@midwayjs/decorator';
 import * as koa from '@modules.services/framework';
 import * as validate from '@midwayjs/validate';
 import * as info from '@midwayjs/info';
-import { join } from 'path';
+
+// ! config
+import * as DefaultConfig from './config/config.default'
+import * as UnittestConfig from './config/config.unittest'
+
+// ! filter
 // import { DefaultErrorFilter } from './filter/default.filter';
 // import { NotFoundFilter } from './filter/notfound.filter';
+
+// ! middleware
 import { ReportMiddleware } from './middleware/report.middleware';
 
 @Configuration({
@@ -16,7 +23,12 @@ import { ReportMiddleware } from './middleware/report.middleware';
       enabledEnvironment: ['local'],
     },
   ],
-  importConfigs: [join(__dirname, './config')],
+  importConfigs: [
+    {
+      default: DefaultConfig,
+      test: UnittestConfig,
+    }
+  ],
 })
 export class ContainerLifeCycle {
   @App()
